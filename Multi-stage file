@@ -1,0 +1,18 @@
+#stage git clone
+
+FROM alpine/git as repo
+
+WORKDIR /home/ubuntu/test
+
+RUN git clone https://github.com/MithunTechnologiesDevOps/spring-boot-mongo-docker.git
+
+
+#stage maven build
+
+FROM maven:latest as build
+
+WORKDIR /home/ubuntu/test
+
+COPY --from=repo /home/ubuntu/test/spring-boot-mongo-docker  /home/ubuntu/test
+
+RUN mvn clean install
